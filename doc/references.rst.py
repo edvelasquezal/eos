@@ -20,7 +20,7 @@ def latex_to_rst(s):
 
 def id_to_eprint_url(eprint_id):
     if eprint_id.startswith('oai:arXiv.org:'):
-        return 'arXiv:' + eprint_id.lstrip('oai:arXiv.org:'), 'https://arxiv.org/abs/' + eprint_id.lstrip('oai:arXiv.org:')
+        return eprint_id.lstrip('oai:arXiv.org:'), 'https://arxiv.org/abs/' + eprint_id.lstrip('oai:arXiv.org:')
 
     return None, None
 
