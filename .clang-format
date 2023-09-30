@@ -1,0 +1,113 @@
+﻿---
+AccessModifierOffset: '-2'
+AlignAfterOpenBracket: 'Align'
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakAfterReturnType: 'AllDefinitions'
+AlwaysBreakTemplateDeclarations: 'Yes'
+BinPackArguments: false
+BreakBeforeBraces: 'Custom'
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: 'Always'
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: true
+  BeforeWhile: true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+BreakBeforeConceptDeclarations: 'Always'
+BreakBeforeTernaryOperators: false
+BreakConstructorInitializers: 'AfterColon'
+BreakInheritanceList: 'AfterColon'
+ColumnLimit: '120'
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: '4'
+ContinuationIndentWidth: '8'
+Cpp11BracedListStyle: false
+EmptyLineAfterAccessModifier: 'Never'
+EmptyLineBeforeAccessModifier: 'LogicalBlock'
+FixNamespaceComments: true
+IncludeBlocks: 'Regroup'
+IncludeCategories:
+  - Regex: '^(<eos|"eos)/'
+    Priority: 1
+  - Regex: '^(<python/_eos|"python/_eos)/'
+    Priority: 2
+  - Regex: '^<boost/'
+    Priority: 3
+  - Regex: '^<gsl/'
+    Priority: 4
+IndentExternBlock: 'AfterExternBlock'
+IndentRequiresClause: false
+IndentWidth: '4'
+IndentWrappedFunctionNames: false
+InsertBraces: true
+InsertNewlineAtEOF: true
+InsertTrailingCommas: 'Wrapped'
+LambdaBodyIndentation: 'OuterScope'
+Language: Cpp
+LineEnding: 'LF'
+MaxEmptyLinesToKeep: '2'
+NamespaceIndentation: All
+PackConstructorInitializers: 'Never'
+PointerAlignment: 'Middle'
+QualifierAlignment: 'Custom'
+QualifierOrder:
+  - 'friend'
+  - 'inline'
+  - 'static'
+  - 'const'
+  - 'constexpr'
+  - 'volatile'
+  - 'type'
+ReferenceAlignment: 'Middle'
+ReflowComments: true
+RemoveParentheses: 'Leave'
+RemoveSemicolon: true
+SeparateDefinitionBlocks: 'Always'
+SortIncludes: 'CaseInsensitive'
+SortUsingDeclarations: 'Lexicographic'
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: true
+SpaceAfterTemplateKeyword: true
+SpaceAroundPointerQualifiers: 'Both'
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: 'Custom'
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterOverloadedOperator: true
+  AfterRequiresInClause: true
+  AfterRequiresInExpression: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesInAngles: 'Never'
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParens: 'Custom'
+SpacesInParensOptions:
+  InConditionalStatements: false
+  InCStyleCasts: false
+  InEmptyParentheses: false
+  Other: false
+SpacesInSquareBrackets: false
+Standard: 'Cpp11'
+TabWidth: '4'
+UseTab: 'Never'
