@@ -1,0 +1,25 @@
+# vim: set fdm=marker :
+
+#########
+# BESIII #
+#########
+#
+# {{{
+# To be uncommented once the observale is implemented
+# D_s^+->phimu^+nu::BR@BESIII:2017C:
+#     type: Gaussian
+#     observable: D_s->Vlnu::BR
+#     kinematics: {}
+#     options: {q: s, l: mu}
+#     mean: 1.94e-2
+#     sigma-stat: { hi: 0.53e-2, lo: 0.53e-2 }
+#     sigma-sys: { hi: 0.09e-2, lo: 0.09e-2 }
+# D_s^+->phie^+nu::BR@BESIII:2017C:
+#     type: Gaussian
+#     observable: D_s->Vlnu::BR
+#     kinematics: {}
+#     options: {q: s, l: e}
+#     mean: 2.26e-2
+#     sigma-stat: { hi: 0.45e-2, lo: 0.45e-2 }
+#     sigma-sys: { hi: 0.09e-2, lo: 0.09e-2 }
+# }}}
