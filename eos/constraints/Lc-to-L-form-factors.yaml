@@ -25,9 +25,9 @@ Lambda_c->Lambda::a_time+long+perp^V+A@M:2016A:
       - Lambda_c->Lambda::a_1_time^V@DM2016
       - Lambda_c->Lambda::a_3_time^V@DM2016
     kinematics:
-        [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
+        [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
     options:
-        [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
+        [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
     means:
         [ 1.2955733552102, -3.2664775710397, 7.1587415496786,
           0.80681305417928, -2.8862401794234, 7.8173654487099,
@@ -56,30 +56,30 @@ Lambda_c->Lambda::a_time+long+perp^V+A@M:2016A:
 Lambda_c->Lambda::f_time+long+perp^V+A@M:2016A:
     type: MultivariateGaussian(Covariance)
     observables:
-      - Lambda_c->Lambda::f_perp^V(q2)@DM2016
-      - Lambda_c->Lambda::f_perp^V(q2)@DM2016
-      - Lambda_c->Lambda::f_perp^V(q2)@DM2016
-      - Lambda_c->Lambda::f_long^V(q2)@DM2016
-      - Lambda_c->Lambda::f_long^V(q2)@DM2016
-      - Lambda_c->Lambda::f_long^V(q2)@DM2016
-      - Lambda_c->Lambda::f_time^V(q2)@DM2016
-      - Lambda_c->Lambda::f_time^V(q2)@DM2016
-      - Lambda_c->Lambda::f_time^V(q2)@DM2016
-      - Lambda_c->Lambda::f_perp^A(q2)@DM2016
-      - Lambda_c->Lambda::f_perp^A(q2)@DM2016
-      - Lambda_c->Lambda::f_perp^A(q2)@DM2016
-      - Lambda_c->Lambda::f_long^A(q2)@DM2016
-      - Lambda_c->Lambda::f_long^A(q2)@DM2016
-      - Lambda_c->Lambda::f_time^A(q2)@DM2016
-      - Lambda_c->Lambda::f_time^A(q2)@DM2016
-      - Lambda_c->Lambda::f_time^A(q2)@DM2016
+      - Lambda_c->Lambda::f_perp^V(q2)
+      - Lambda_c->Lambda::f_perp^V(q2)
+      - Lambda_c->Lambda::f_perp^V(q2)
+      - Lambda_c->Lambda::f_long^V(q2)
+      - Lambda_c->Lambda::f_long^V(q2)
+      - Lambda_c->Lambda::f_long^V(q2)
+      - Lambda_c->Lambda::f_time^V(q2)
+      - Lambda_c->Lambda::f_time^V(q2)
+      - Lambda_c->Lambda::f_time^V(q2)
+      - Lambda_c->Lambda::f_perp^A(q2)
+      - Lambda_c->Lambda::f_perp^A(q2)
+      - Lambda_c->Lambda::f_perp^A(q2)
+      - Lambda_c->Lambda::f_long^A(q2)
+      - Lambda_c->Lambda::f_long^A(q2)
+      - Lambda_c->Lambda::f_time^A(q2)
+      - Lambda_c->Lambda::f_time^A(q2)
+      - Lambda_c->Lambda::f_time^A(q2)
     options: [
         { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },
         { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },
         { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },
         { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },
         { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' },
-        { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' } 
+        { 'form-factors': 'BMRvD2022' },   { 'form-factors': 'BMRvD2022' }
     ]
     kinematics: [ #calculated at 0.15*q2max , 0.40 * q2max , 0.70*q2max
         { 'q2': 0.205608 },                    { 'q2': 0.548288 },                    { 'q2': 0.959503 },
@@ -89,8 +89,8 @@ Lambda_c->Lambda::f_time+long+perp^V+A@M:2016A:
                                                { 'q2': 0.548288 },                    { 'q2': 0.959503 },
         { 'q2': 0.205608 },                    { 'q2': 0.548288 },                    { 'q2': 0.959503 },
     ]
-    means: [1.17746, 1.32756, 1.5588, 0.691921, 0.791083, 0.947806, 0.683076, 
-    0.762058, 0.881464, 0.603177, 0.66326, 0.754307, 0.65357, 0.744456, 
+    means: [1.17746, 1.32756, 1.5588, 0.691921, 0.791083, 0.947806, 0.683076,
+    0.762058, 0.881464, 0.603177, 0.66326, 0.754307, 0.65357, 0.744456,
     0.617073, 0.711505, 0.870078]
     covariance:
       -  [0.003021487280386131, 0.0028903568320530356, 0.0027504172766897555, 0.0005670925707321969, 0.0006698891008084223, 0.0008260097917995894, 0.0005273160884494706, 0.0005519010714623747, 0.0005889764559646938, 0.00023658941367411807, 0.0002779210265429533, 0.0003388815805773423, 0.0003153291196147225, 0.00036240993570631306, 0.0003337550522053346, 0.00048080957580988747, 0.0007217285406214722]
