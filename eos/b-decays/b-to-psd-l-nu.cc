@@ -95,7 +95,7 @@ namespace eos
 
         // { q, P } -> { process, U, B_name, P_name, c_I }
         // q: u, d, s: the spectar quark flavor
-        // P: D, K, pi: the type of daughter meson
+        // P: D, K, pi, eta, eta_prime: the type of daughter meson
         // process: string that can be used to obtain the form factor
         // U: the quark flavor in the weak transition
         // B_name: name of the B meson
@@ -167,7 +167,7 @@ namespace eos
             model(Model::make(o.get("model", "SM"), p, o)),
             parameters(p),
             opt_q(o, options, "q"),
-            opt_P(o, "P", { "D", "pi", "K" }),
+            opt_P(o, "P", { "D", "pi", "K", "eta", "eta_prime" }),
             m_B(p["mass::" + _B()], u),
             tau_B(p["life_time::" + _B()], u),
             m_P(p["mass::" + _P()], u),
@@ -443,6 +443,9 @@ namespace eos
         { { QuarkFlavor::up,      "pi"        }, { "B->pi",        QuarkFlavor::up,    "B_u", "pi^0",      1.0 / std::sqrt(2.0) } },
         { { QuarkFlavor::down,    "pi"        }, { "B->pi",        QuarkFlavor::up,    "B_d", "pi^+",      1.0                  } },
         { { QuarkFlavor::strange, "K"         }, { "B_s->K",       QuarkFlavor::up,    "B_s", "K_u",       1.0                  } },
+        // The "isospin factor" of the B -> eta(') transitions is accounted for in the form-factors
+        { { QuarkFlavor::up,      "eta"       }, { "B->eta",       QuarkFlavor::up,    "B_u", "eta",       1.0                  } },
+        { { QuarkFlavor::up,      "eta_prime" }, { "B->eta_prime", QuarkFlavor::up,    "B_u", "eta_prime", 1.0                  } },
     };
 
     const std::vector<OptionSpecification>
