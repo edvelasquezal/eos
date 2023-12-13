@@ -60,6 +60,21 @@ namespace eos
         static constexpr const char * name_1 = "mass::Lambda_c";
         static constexpr const char * name_2 = "mass::Lambda";
         static constexpr const std::tuple<QuarkFlavor, QuarkFlavor> partonic_transition = std::make_tuple(QuarkFlavor::charm, QuarkFlavor::strange);
+        // initial state mass
+        static constexpr double m1 = 2.2865;
+        // final state mass
+        static constexpr double m2 = 1.115683;
+        // semileptonic kinematic endpoint
+        static constexpr double tm = (m1 - m2) * (m1 - m2);
+        // pair production threshold: D + K
+        static constexpr double tp = (1.870 + 0.494) * (1.870 + 0.494);
+        // zero of the conformal mapping: z(t0, t0) = 0.0
+        static constexpr double t0 = tm;
+        // first resonances sorted by spin/parity
+        static constexpr double mR2_0m = 1.968 * 1.968;
+        static constexpr double mR2_0p = 2.318 * 2.318;
+        static constexpr double mR2_1m = 2.112 * 2.112;
+        static constexpr double mR2_1p = 2.460 * 2.460;
         // OPE results for the unitarity bounds
         // TODO:
         static constexpr double chi_0m = 1.57e-2;
