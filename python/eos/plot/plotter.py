@@ -1804,7 +1804,7 @@ class Plotter:
 
         def plot(self):
             self.plotter.ax.hist(self.samples, weights=self.weights, density=True,
-                    alpha=self.alpha, bins=self.bins, color=self.color,
+                    alpha=self.alpha, bins=np.linspace(self.xlo, self.xhi, self.bins), color=self.color,
                     histtype=self.histtype, label=self.label, lw=self.lw)
 
 
