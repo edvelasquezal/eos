@@ -85,6 +85,21 @@ namespace eos
         static constexpr double chi_t5 = 2.99e-2 / 4.0 / (4.2 * 4.2); // factor 4 by convention
     };
 
+    struct LambdaCToLambda {
+        static constexpr const char * label = "Lambda_c->Lambda";
+        static constexpr const char * name_1 = "mass::Lambda_c";
+        static constexpr const char * name_2 = "mass::Lambda";
+        static constexpr const std::tuple<QuarkFlavor, QuarkFlavor> partonic_transition = std::make_tuple(QuarkFlavor::charm, QuarkFlavor::strange);
+        // OPE results for the unitarity bounds
+        // TODO:
+        static constexpr double chi_0m = 1.57e-2;
+        static constexpr double chi_0p = 1.42e-2;
+        static constexpr double chi_1m = 1.20e-2 / (4.2 * 4.2);
+        static constexpr double chi_1p = 1.13e-2 / (4.2 * 4.2);
+        static constexpr double chi_t  = 3.21e-2 / 4.0 / (4.2 * 4.2); // factor 4 by convention
+        static constexpr double chi_t5 = 2.99e-2 / 4.0 / (4.2 * 4.2); // factor 4 by convention
+    };
+
     /*
      * J=1/2^+ -> J=1/2^- transitions
      */
