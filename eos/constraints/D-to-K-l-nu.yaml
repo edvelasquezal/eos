@@ -99,7 +99,7 @@ D^+->Kbar^0e^+nu::BR[0.0,q2max]@BESIII:2019A:
     sigma-stat: {hi: 0.09e-02, lo: -0.09e-02}
     sigma-sys: {hi: 0.0e-02, lo: -0.0e-02}
 D^+->Kbar^0e^+nu::normalizedwidth@BESIII:2017A:
-    type: MultivariateGaussian
+    type: MultivariateGaussian(Covariance)
     observables:
         -   D->Klnu::P(q2_min,q2_max)
         -   D->Klnu::P(q2_min,q2_max)
