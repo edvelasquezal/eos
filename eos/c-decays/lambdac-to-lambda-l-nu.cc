@@ -378,6 +378,31 @@ namespace eos
             return integrate1D(integrand, 64, q2_min, q2_max);
         }
 
+        double _differential_k1ss(const double & q2)
+        {
+            return lambdac_to_lambda_l_nu::AngularObservables(this->amplitudes(q2)).k1ss();
+        }
+
+        double _differential_k1cc(const double & q2)
+        {
+            return lambdac_to_lambda_l_nu::AngularObservables(this->amplitudes(q2)).k1cc();
+        }
+
+        double _integrated_k1ss(const double & q2_min, const double & q2_max)
+        {
+            std::function<double (const double &)> integrand(std::bind(&Implementation::_differential_k1ss, this, std::placeholders::_1));
+
+            return integrate1D(integrand, 64, q2_min, q2_max);
+        }
+
+        double _integrated_k1cc(const double & q2_min, const double & q2_max)
+        {
+            std::function<double (const double &)> integrand(std::bind(&Implementation::_differential_k1cc, this, std::placeholders::_1));
+
+            return integrate1D(integrand, 64, q2_min, q2_max);
+        }
+
+
         inline lambdac_to_lambda_l_nu::AngularObservables differential_angular_observables(const double & q2)
         {
             return lambdac_to_lambda_l_nu::AngularObservables{ _differential_angular_observables(q2) };
@@ -455,7 +480,10 @@ namespace eos
     double
     LambdaCToLambdaLeptonNeutrino::integrated_branching_ratio(const double & s_min, const double & s_max) const
     {
-        return _imp->integrated_angular_observables(s_min, s_max).decay_width() * _imp->tau_Lambda_c / _imp->hbar;
+        // return _imp->integrated_angular_observables(s_min, s_max).decay_width() * _imp->tau_Lambda_c / _imp->hbar;
+
+        // Fix-up for the integration
+        return (2.0 * _imp->_integrated_k1ss(s_min, s_max) + _imp->_integrated_k1cc(s_min, s_max)) * _imp->tau_Lambda_c / _imp->hbar;
     }
 
     double
