@@ -52,64 +52,64 @@ namespace eos
     template <std::size_t k> std::array<double, k> integrate1D(const std::function<std::array<double, k> (const double &)> & f, unsigned n, const double & a, const double & b);
     /// @}
 
-namespace GSL
-{
-    using fdd = std::function<double(const double &)>;
-    struct QNG
+    namespace GSL
     {
-        class Config
+        using fdd = std::function<double(const double &)>;
+        struct QNG
         {
-            public:
-                Config();
+            class Config
+            {
+                public:
+                    Config();
 
-                double epsabs() const;
-                Config& epsabs(const double& x);
+                    double epsabs() const;
+                    Config& epsabs(const double& x);
 
-                double epsrel() const;
-                Config& epsrel(const double& x);
-            private:
-              double _epsabs, _epsrel;
-        };
-    };
-
-    struct QAGS
-    {
-        class Workspace
-        {
-        public:
-            Workspace(int limit = 5000);
-            Workspace(const Workspace &) = delete;
-            Workspace(Workspace &&) = delete;
-            ~Workspace();
-            Workspace &operator=(const Workspace &) = delete;
-            Workspace &operator=(Workspace &&) = delete;
-            operator gsl_integration_workspace *() const { return _work_space; }
-            int limit() const { return _work_space->limit; }
-        private:
-            gsl_integration_workspace *_work_space;
+                    double epsrel() const;
+                    Config& epsrel(const double& x);
+                private:
+                    double _epsabs, _epsrel;
+            };
         };
 
-        class Config
+        struct QAGS
         {
-            public:
-                Config();
+            class Workspace
+            {
+                public:
+                    Workspace(int limit = 5000);
+                    Workspace(const Workspace &) = delete;
+                    Workspace(Workspace &&) = delete;
+                    ~Workspace();
+                    Workspace &operator=(const Workspace &) = delete;
+                    Workspace &operator=(Workspace &&) = delete;
+                    operator gsl_integration_workspace *() const { return _work_space; }
+                    int limit() const { return _work_space->limit; }
+                private:
+                    gsl_integration_workspace *_work_space;
+            };
 
-                double epsabs() const;
-                Config& epsabs(const double& x);
+            class Config
+            {
+                public:
+                    Config();
 
-                double epsrel() const;
-                Config& epsrel(const double& x);
+                    double epsabs() const;
+                    Config& epsabs(const double& x);
 
-                int key() const;
-                Config& key(const int&);
-            private:
-                QNG::Config _qng;
-                int _key;
+                    double epsrel() const;
+                    Config& epsrel(const double& x);
+
+                    int key() const;
+                    Config& key(const int&);
+                private:
+                    QNG::Config _qng;
+                    int _key;
+            };
         };
-    };
 
-    static thread_local QAGS::Workspace work_space;
-}
+        static thread_local QAGS::Workspace work_space;
+    }
 
     /*!
      * Numerically integrate functions of one real-valued parameter.
@@ -124,29 +124,29 @@ namespace GSL
                      const double &a, const double &b,
                      const typename Method_::Config &config = typename Method_::Config());
 
-namespace cubature
-{
-    template <size_t dim_>
-    using fdd = std::function<double(const std::array<double, dim_> &)>;
-
-    class Config
+    namespace cubature
     {
-    public:
-        Config();
+        template <size_t dim_>
+        using fdd = std::function<double(const std::array<double, dim_> &)>;
 
-        double epsabs() const;
-        Config& epsabs(const double& x);
+        class Config
+        {
+            public:
+                Config();
 
-        double epsrel() const;
-        Config& epsrel(const double& x);
+                double epsabs() const;
+                Config& epsabs(const double& x);
 
-        size_t maxeval() const;
-        Config& maxeval(const size_t& x);
-    private:
-        GSL::QNG::Config _qng;
-        size_t _maxeval;
-    };
-}
+                double epsrel() const;
+                Config& epsrel(const double& x);
+
+                size_t maxeval() const;
+                Config& maxeval(const size_t& x);
+            private:
+                GSL::QNG::Config _qng;
+                size_t _maxeval;
+        };
+    }
 
     /*!
      * Numerically integrate functions of one or more than one variable with
