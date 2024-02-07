@@ -416,9 +416,9 @@ namespace eos
     {
         { { QuarkFlavor::down,    QuarkFlavor::up,      "1"   }, { "D->pi",  "D_u", "pi^+", 1.0                   } },
         { { QuarkFlavor::down,    QuarkFlavor::down,    "1"   }, { "D->pi",  "D_d", "pi^0", 1.0 / std::sqrt(2.0)  } },
-        { { QuarkFlavor::down,    QuarkFlavor::strange, "1/2" }, { "D_s->K", "D_s", "K_d",  1.0 / std::sqrt(2.0)  } },
+        { { QuarkFlavor::down,    QuarkFlavor::strange, "1/2" }, { "D_s->K", "D_s", "K_d",  1.0                   } },
         { { QuarkFlavor::strange, QuarkFlavor::up,      "1/2" }, { "D->K",   "D_u", "K_u",  1.0                   } },
-        { { QuarkFlavor::strange, QuarkFlavor::down,    "1/2" }, { "D->K",   "D_d", "K_d",  1.0 / std::sqrt(2.0)  } },
+        { { QuarkFlavor::strange, QuarkFlavor::down,    "1/2" }, { "D->K",   "D_d", "K_d",  1.0                   } },
     };
 
     const std::vector<OptionSpecification>
