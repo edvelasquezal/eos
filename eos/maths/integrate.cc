@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2011 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  * Copyright (c) 2018 Frederik Beaujean
  *
  * This file is part of the EOS project. EOS is free software;
@@ -320,6 +320,37 @@ namespace eos
         Config & Config::maxeval(const size_t& x)
         {
             _maxeval = x;
+            return *this;
+        }
+    }
+
+    namespace custom
+    {
+        Config::Config() :
+            _epsabs(0),
+            _epsrel(1e-4)
+        {
+        }
+
+        double Config::epsabs() const
+        {
+            return _epsabs;
+        }
+
+        Config & Config::epsabs(const double &x)
+        {
+            _epsabs = x;
+            return *this;
+        }
+
+        double Config::epsrel() const
+        {
+            return _epsrel;
+        }
+
+        Config & Config::epsrel(const double &x)
+        {
+            _epsrel = x;
             return *this;
         }
     }

@@ -111,8 +111,26 @@ namespace eos
         static thread_local QAGS::Workspace work_space;
     }
 
+    namespace custom
+    {
+        class Config
+        {
+            private:
+                double _epsabs, _epsrel;
+
+            public:
+                Config();
+
+                double epsabs() const;
+                Config& epsabs(const double& x);
+
+                double epsrel() const;
+                Config& epsrel(const double& x);
+        };
+    }
+
     /*!
-     * Numerically integrate functions of one real-valued parameter.
+     * Numerically integrate scalar functions of one real-valued parameter.
      *
      * Two methods from the
      * GNU scientific library are wrapped:
@@ -123,6 +141,17 @@ namespace eos
     double integrate(const std::function<double(const double &)> & f,
                      const double &a, const double &b,
                      const typename Method_::Config &config = typename Method_::Config());
+
+    /*!
+     * Numerically integrate vector-valued functions of one real-valued parameter.
+     *
+     * One custom methods based on the (slightly adaptive) Gauss-Kronrod rule is available.
+     * This code heavily borrows from the GSL implementation, which is GPLv2 licensed.
+     */
+    template <size_t dim_>
+    std::array<double, dim_> integrate(const std::function<std::array<double, dim_> (const double &)> & f,
+                                       const double & a, const double & b,
+                                       const typename custom::Config & config = typename custom::Config());
 
     namespace cubature
     {

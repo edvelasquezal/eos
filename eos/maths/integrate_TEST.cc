@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -113,3 +113,69 @@ class IntegrateTest :
             TEST_CHECK_RELATIVE_ERROR(q5, 1.0, eps);
         }
 } model_test;
+
+// tests the integration of a function of one scalar variable returning a vector,
+// using (slightly) adaptive integration with the nested G(K) 10-, 21-, and 43-point rules
+class CustomIntegrateTest :
+    public TestCase
+{
+    public:
+        CustomIntegrateTest() :
+            TestCase("custom_integrate_test")
+        {
+        }
+
+        // integral of f1(x) = 6.0 * x * (1.0 - x) from 0 to 1 is 1.0
+        static double f1(const double & x)
+        {
+            return 6.0 * x * (1.0 - x);
+        }
+
+        // integral of f2(x) = f1(x) / (1.1 - x) from 0 to 1 is 3.0
+        static double f2(const double & x)
+        {
+            return f1(x) / (1.0 - x);
+        }
+
+        // integral of f3(x) = exp(-x) from 0 to 1 is 1.0 - exp(-1.0)
+        static double f3(const double & x)
+        {
+            return std::exp(-x);
+        }
+
+        // defined on the interval [0, 1]
+        static std::array<double, 2u> test_f1(const double & x)
+        {
+            return { f1(x), f2(x) };
+        }
+
+        // defined on the interval [0, 1]
+        static std::array<double, 2u> test_f2(const double & x)
+        {
+            return { f1(x), f3(x) };
+        }
+
+        virtual void run() const
+        {
+            constexpr double eps = 1.0e-15;
+
+            {
+                const auto config = custom::Config().epsrel(eps);
+                auto f1 = std::function<std::array<double, 2u> (const double &)>(&test_f1);
+                auto q1 = integrate<2>(f1, 0.0, 1.0, config);
+
+                TEST_CHECK_RELATIVE_ERROR(q1[0], 1.0, eps);
+                TEST_CHECK_RELATIVE_ERROR(q1[1], 3.0, eps);
+            }
+
+            {
+                auto config = custom::Config().epsrel(eps);
+                auto f2 = std::function<std::array<double, 2u> (const double &)>(&test_f2);
+                auto q2 = integrate<2>(f2, 0.0, 1.0, config);
+
+                TEST_CHECK_RELATIVE_ERROR(q2[0], 1.0,             eps);
+                TEST_CHECK_RELATIVE_ERROR(q2[1], 1.0 - exp(-1.0), eps);
+            }
+        }
+
+} custom_integrate_test;

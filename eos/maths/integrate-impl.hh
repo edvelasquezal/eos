@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2011 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  * Copyright (c) 2011 Christian Wacker
  * Copyright (c) 2018 Frederik Beaujean
  *
@@ -25,12 +25,270 @@
 #include <eos/maths/integrate.hh>
 #include <eos/maths/integrate-cubature.hh>
 #include <eos/maths/matrix.hh>
+#include <eos/utils/log.hh>
 
 #include <cassert>
+#include <numeric>
 #include <vector>
+
+#include <iostream>
 
 namespace eos
 {
+    namespace custom
+    {
+        /*
+         * Gauss-Kronrod-Patterson quadrature coefficients for use in quadpack routine qng.
+         *
+         * These coefficients were calculated with 101 decimal digit arithmetic by L. W. Fullerton, Bell Labs, Nov 1981.
+         */
+
+        // abscissae of the 10-point Gauss-Kronrod-Patterson quadrature formula
+        static constexpr const std::array<double, 10> x_10
+        {
+            -0.973906528517171720077964012084452,
+            -0.865063366688984510732096688423493,
+            -0.679409568299024406234327365114874,
+            -0.433395394129247190799265943165784,
+            -0.148874338981631210884826001129720,
+            +0.148874338981631210884826001129720,
+            +0.433395394129247190799265943165784,
+            +0.679409568299024406234327365114874,
+            +0.865063366688984510732096688423493,
+            +0.973906528517171720077964012084452
+        };
+
+        // weights of the 10-point Gauss-Kronrod-Patterson quadrature formula
+        static constexpr const std::array<double, 10> w_1_10
+        {
+            +0.066671344308688137593568809893332,
+            +0.149451349150580593145776339657697,
+            +0.219086362515982043995534934228163,
+            +0.269266719309996355091226921569469,
+            +0.295524224714752870173892994651338,
+            +0.295524224714752870173892994651338,
+            +0.269266719309996355091226921569469,
+            +0.219086362515982043995534934228163,
+            +0.149451349150580593145776339657697,
+            +0.066671344308688137593568809893332
+        };
+
+        // weights of the first 10 points of the 21-point Gauss-Kronrod-Patterson quadrature formula
+        static constexpr const std::array<double, 10> w_2_10
+        {
+            +0.032558162307964727478818972459390,
+            +0.075039674810919952767043140916190,
+            +0.109387158802297641899210590325805,
+            +0.134709217311473325928054001771707,
+            +0.147739104901338491374841515972068,
+            +0.147739104901338491374841515972068,
+            +0.134709217311473325928054001771707,
+            +0.109387158802297641899210590325805,
+            +0.075039674810919952767043140916190,
+            +0.032558162307964727478818972459390
+        };
+
+        // weights of the first 10 points of the 43-point Gauss-Kronrod-Patterson quadrature formula
+        static constexpr const std::array<double, 10> w_3_10
+        {
+            +0.016296734289666564924281974617663,
+            +0.037522876120869501461613795898115,
+            +0.054694902058255442147212685465005,
+            +0.067355414609478086075553166302174,
+            +0.073870199632393953432140695251367,
+            +0.073870199632393953432140695251367,
+            +0.067355414609478086075553166302174,
+            +0.054694902058255442147212685465005,
+            +0.037522876120869501461613795898115,
+            +0.016296734289666564924281974617663
+        };
+
+        // abscissae of the 21-point Gauss-Kronrod-Patterson quadrature formula not contained in the 10-point formula
+        static constexpr const std::array<double, 11> x_21
+        {
+            -0.995657163025808080735527280689003,
+            -0.930157491355708226001207180059508,
+            -0.780817726586416897063717578345042,
+            -0.562757134668604683339000099272694,
+            -0.294392862701460198131126603103866,
+             0.0,
+            +0.294392862701460198131126603103866,
+            +0.562757134668604683339000099272694,
+            +0.780817726586416897063717578345042,
+            +0.930157491355708226001207180059508,
+            +0.995657163025808080735527280689003
+        };
+
+        // weights of the 21-point Gauss-Kronrod-Patterson quadrature formula for abscissae not contained in the 10-point formula
+        static constexpr const std::array<double, 11> w_2_21
+        {
+            +0.011694638867371874278064396062192,
+            +0.054755896574351996031381300244580,
+            +0.093125454583697605535065465083366,
+            +0.123491976262065851077958109831074,
+            +0.142775938577060080797094273138717,
+            +0.149445554002916905664936468389821,
+            +0.142775938577060080797094273138717,
+            +0.123491976262065851077958109831074,
+            +0.093125454583697605535065465083366,
+            +0.054755896574351996031381300244580,
+            +0.011694638867371874278064396062192
+        };
+
+        // weights of the 43-point Gauss-Kronrod-Patterson quadrature formula for abscissae not contained in the 21-point formula
+        static constexpr const std::array<double, 11> w_3_21
+        {
+            +0.005768556059769796184184327908655,
+            +0.027371890593248842081276069289151,
+            +0.046560826910428830743339154433824,
+            +0.061744995201442564496240336030883,
+            +0.071387267268693397768559114425516,
+            +0.074722147517403005594425168280423,
+            +0.071387267268693397768559114425516,
+            +0.061744995201442564496240336030883,
+            +0.046560826910428830743339154433824,
+            +0.027371890593248842081276069289151,
+            +0.005768556059769796184184327908655
+        };
+
+        // abscissae of the 43-point Gauss-Kronrod-Patterson quadrature formula not contained in the 21-point formula
+        static constexpr const std::array<double, 22> x_43
+        {
+            0.999333360901932081394099323919911,
+            0.987433402908088869795961478381209,
+            0.954807934814266299257919200290473,
+            0.900148695748328293625099494069092,
+            0.825198314983114150847066732588520,
+            0.732148388989304982612354848755461,
+            0.622847970537725238641159120344323,
+            0.499479574071056499952214885499755,
+            0.364901661346580768043989548502644,
+            0.222254919776601296498260928066212,
+            0.074650617461383322043914435796506,
+            0.074650617461383322043914435796506,
+            0.222254919776601296498260928066212,
+            0.364901661346580768043989548502644,
+            0.499479574071056499952214885499755,
+            0.622847970537725238641159120344323,
+            0.732148388989304982612354848755461,
+            0.825198314983114150847066732588520,
+            0.900148695748328293625099494069092,
+            0.954807934814266299257919200290473,
+            0.987433402908088869795961478381209,
+            0.999333360901932081394099323919911
+        };
+
+        // weights of the 43-point Gauss-Kronrod-Patterson quadrature formula for abscissae not contained in the 21-point formula
+        static constexpr const std::array<double, 22> w_3_43
+        {
+            0.001844477640212414100389106552965,
+            0.010798689585891651740465406741293,
+            0.021895363867795428102523123075149,
+            0.032597463975345689443882222526137,
+            0.042163137935191811847627924327955,
+            0.050741939600184577780189020092084,
+            0.058379395542619248375475369330206,
+            0.064746404951445885544689259517511,
+            0.069566197912356484528633315038405,
+            0.072824441471833208150939535192842,
+            0.074507751014175118273571813842889,
+            0.074507751014175118273571813842889,
+            0.072824441471833208150939535192842,
+            0.069566197912356484528633315038405,
+            0.064746404951445885544689259517511,
+            0.058379395542619248375475369330206,
+            0.050741939600184577780189020092084,
+            0.042163137935191811847627924327955,
+            0.032597463975345689443882222526137,
+            0.021895363867795428102523123075149,
+            0.010798689585891651740465406741293,
+            0.001844477640212414100389106552965
+        };
+    }
+
+    template <unsigned dim_>
+    std::array<double, dim_>
+    integrate(const std::function<std::array<double, dim_> (const double &)> & f,
+              const double & a, const double & b,
+              const custom::Config & config)
+    {
+        using value_type = std::array<double, dim_>;
+
+        const double jacobian = (b - a) / 2.0;
+        const double x_zero = (b + a) / 2.0;
+
+        std::array<value_type, 10> f_10;
+        for (unsigned i = 0 ; i < 10 ; ++i)
+        {
+            f_10[i] = f(custom::x_10[i] * jacobian + x_zero);
+        }
+
+        std::array<value_type, 11> f_21;
+        for (unsigned i = 0 ; i < 11 ; ++i)
+        {
+            f_21[i] = f(custom::x_21[i] * jacobian + x_zero);
+        }
+
+        auto accumulator = [](const value_type & a, const value_type & b) -> value_type
+        {
+            return a + b;
+        };
+
+        auto multiplication = [](const double & a, const value_type & b) -> value_type
+        {
+            return a * b;
+        };
+
+        value_type result_1; // result of the 10-point Gauss-Kronrod-Patterson quadrature formula
+        result_1.fill(0.0);
+        result_1 = std::inner_product(custom::w_1_10.begin(), custom::w_1_10.end(), f_10.begin(), result_1, accumulator, multiplication);
+        result_1 = jacobian * result_1;
+
+        value_type result_2; // result of the 21-point Gauss-Kronrod-Patterson quadrature formula
+        result_2.fill(0.0);
+        result_2 = std::inner_product(custom::w_2_10.begin(), custom::w_2_10.end(), f_10.begin(), result_2, accumulator, multiplication);
+        result_2 = std::inner_product(custom::w_2_21.begin(), custom::w_2_21.end(), f_21.begin(), result_2, accumulator, multiplication);
+        result_2 = jacobian * result_2;
+
+        value_type abs_difference = result_2 - result_1;
+        value_type rel_difference = divide(abs_difference, result_2);
+        double abs_error_estimate = *std::max_element(abs_difference.begin(), abs_difference.end(), [](double a, double b) { return std::abs(a) < std::abs(b); });
+        double rel_error_estimate = *std::max_element(rel_difference.begin(), rel_difference.end(), [](double a, double b) { return std::abs(a) < std::abs(b); });
+
+        if (abs_error_estimate < config.epsabs() || rel_error_estimate < config.epsrel())
+        {
+            return result_2;
+        }
+
+        std::array<value_type, 22> f_43;
+        for (unsigned i = 0 ; i < 22 ; ++i)
+        {
+            f_43[i] = f(custom::x_43[i] * jacobian + x_zero);
+        }
+
+        value_type result_3; // result of the 43-point Gauss-Kronrod-Patterson quadrature formula
+        result_3.fill(0.0);
+        result_3 = std::inner_product(custom::w_3_10.begin(), custom::w_3_10.end(), f_10.begin(), result_3, accumulator, multiplication);
+        result_3 = std::inner_product(custom::w_3_21.begin(), custom::w_3_21.end(), f_21.begin(), result_3, accumulator, multiplication);
+        result_3 = std::inner_product(custom::w_3_43.begin(), custom::w_3_43.end(), f_43.begin(), result_3, accumulator, multiplication);
+        result_3 = jacobian * result_3;
+
+        abs_difference = result_3 - result_2;
+        rel_difference = divide(abs_difference, result_3);
+        abs_error_estimate = *std::max_element(abs_difference.begin(), abs_difference.end(), [](double a, double b) { return std::abs(a) < std::abs(b); });
+        rel_error_estimate = *std::max_element(rel_difference.begin(), rel_difference.end(), [](double a, double b) { return std::abs(a) < std::abs(b); });
+
+        if (abs_error_estimate < config.epsabs() || rel_error_estimate < config.epsrel())
+        {
+            return result_3;
+        }
+
+        Log::instance()->message("custom.integrate<" + stringify(dim_) + ">", ll_error)
+            << "Gauss-Kronrod-Patterson 43-point quadrature failed to converge";
+
+        return result_3;
+    }
+
     template <std::size_t k> std::array<double, k> integrate1D(const std::function<std::array<double, k> (const double &)> & f, unsigned n, const double & a, const double & b)
     {
         if (n & 0x1)
