@@ -153,6 +153,23 @@ namespace eos
                                        const double & a, const double & b,
                                        const typename custom::Config & config = typename custom::Config());
 
+    extern template std::array<double, 2ul> integrate<2ul>(const std::function<std::array<double, 2ul> (const double &)> & f,
+                                                       const double & a, const double & b,
+                                                       const custom::Config & config);
+    extern template std::array<double, 10ul> integrate<10ul>(const std::function<std::array<double, 10ul> (const double &)> & f,
+                                                       const double & a, const double & b,
+                                                       const custom::Config & config);
+    extern template std::array<double, 12ul> integrate<12ul>(const std::function<std::array<double, 12ul> (const double &)> & f,
+                                                       const double & a, const double & b,
+                                                       const custom::Config & config);
+    extern template std::array<double, 34ul> integrate<34ul>(const std::function<std::array<double, 34ul> (const double &)> & f,
+                                                       const double & a, const double & b,
+                                                       const custom::Config & config);
+
+    complex<double> integrate(const std::function<complex<double> (const double &)> & f,
+                              const double & a, const double & b,
+                              const custom::Config & config);
+
     namespace cubature
     {
         template <size_t dim_>

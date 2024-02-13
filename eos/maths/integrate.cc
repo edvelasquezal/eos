@@ -19,6 +19,7 @@
  */
 
 #include <eos/maths/integrate.hh>
+#include <eos/maths/integrate-impl.hh>
 #include <eos/maths/matrix.hh>
 
 #include <gsl/gsl_errno.h>
@@ -358,5 +359,19 @@ namespace eos
     IntegrationError::IntegrationError(const std::string & message) throw () :
         Exception(message)
     {
+    }
+
+    template std::array<double, 2ul> integrate<2ul>(const std::function<std::array<double, 2ul> (const double &)> &, const double &, const double &, const custom::Config &);
+    template std::array<double, 10ul> integrate<10ul>(const std::function<std::array<double, 10ul> (const double &)> &, const double &, const double &, const custom::Config &);
+    template std::array<double, 12ul> integrate<12ul>(const std::function<std::array<double, 12ul> (const double &)> &, const double &, const double &, const custom::Config &);
+    template std::array<double, 34ul> integrate<34ul>(const std::function<std::array<double, 34ul> (const double &)> &, const double &, const double &, const custom::Config &);
+
+    complex<double> integrate(const std::function<complex<double> (const double &)> & f,
+                              const double & a, const double & b,
+                              const custom::Config & config = custom::Config())
+    {
+        std::array<double, 2ul> result = integrate<2ul>([&f](const double & x) -> std::array<double, 2> { return { f(x).real(), f(x).imag() }; }, a, b, config);
+
+        return complex<double>(result[0], result[1]);
     }
 }
