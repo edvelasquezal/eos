@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2013, 2015 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -18,6 +18,7 @@
  */
 
 #include <eos/maths/integrate.hh>
+#include <eos/maths/integrate-impl.hh>
 #include <eos/maths/polylog.hh>
 #include <eos/maths/power-of.hh>
 #include <eos/rare-b-decays/bremsstrahlung.hh>
@@ -200,9 +201,9 @@ namespace eos
         if (1.0 - s_hat < eps)
             return 0.0;
 
-        return integrate1D(std::function<complex<double> (const double &)>(
+        return integrate(std::function<complex<double> (const double &)>(
                     std::bind(&Bremsstrahlung::tau_22, s_hat, std::placeholders::_1, z)),
-                128, s_hat + eps, 1.0);
+                s_hat + eps, 1.0, custom::Config());
     }
 
     complex<double>
@@ -213,9 +214,9 @@ namespace eos
         if (1.0 - s_hat < eps)
             return 0.0;
 
-        return integrate1D(std::function<complex<double> (const double &)>(
+        return integrate(std::function<complex<double> (const double &)>(
                     std::bind(&Bremsstrahlung::tau_27, s_hat, std::placeholders::_1, z)),
-                128, s_hat + eps, 1.0);
+                s_hat + eps, 1.0, custom::Config());
     }
 
     complex<double>
@@ -226,9 +227,9 @@ namespace eos
         if (1.0 - s_hat < eps)
             return 0.0;
 
-        return integrate1D(std::function<complex<double> (const double &)>(
+        return integrate(std::function<complex<double> (const double &)>(
                     std::bind(&Bremsstrahlung::tau_28, s_hat, std::placeholders::_1, z)),
-                128, s_hat + eps, 1.0);
+                s_hat + eps, 1.0, custom::Config());
     }
 
     complex<double>
@@ -239,8 +240,8 @@ namespace eos
         if (1.0 - s_hat < eps)
             return 0.0;
 
-        return integrate1D(std::function<complex<double> (const double &)>(
+        return integrate(std::function<complex<double> (const double &)>(
                     std::bind(&Bremsstrahlung::tau_29, s_hat, std::placeholders::_1, z)),
-                128, s_hat + eps, 1.0);
+                s_hat + eps, 1.0, custom::Config());
     }
 }

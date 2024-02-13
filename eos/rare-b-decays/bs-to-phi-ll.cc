@@ -77,6 +77,8 @@ namespace eos
         UsedParameter mu;
         UsedParameter phiBs;
 
+        custom::Config integration_config;
+
         static const std::vector<OptionSpecification> options;
 
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
@@ -86,7 +88,8 @@ namespace eos
             m_l(p["mass::" + opt_l.str()], u),
             tau(p["life_time::B_s"], u),
             mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u),
-            phiBs(p["B_s::q_over_p_phase"], u)
+            phiBs(p["B_s::q_over_p_phase"], u),
+            integration_config(custom::Config().epsrel(1e-7))
         {
             Context ctx("When constructing Bs->Phill observables");
 
@@ -232,7 +235,7 @@ namespace eos
         {
             std::function<std::array<double, 12> (const double &)> integrand =
                     std::bind(&Implementation<BsToPhiDilepton>::differential_angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 12> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 12> integrated_angular_coefficients_array = integrate<12>(integrand, s_min, s_max, integration_config);
 
             return BsToPhiDilepton::AngularCoefficients(integrated_angular_coefficients_array);
         }
@@ -1090,7 +1093,7 @@ The azimuthal angle between the Kbar-K plane and the l^+l^- plane.";
     {
         std::function<std::array<double, 12> (const double &)> integrand =
                 std::bind(&BsToPhiDileptonAndConjugate::differential_angular_h_coefficients_array, this, std::placeholders::_1);
-        std::array<double, 12> integrated_angular_h_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+        std::array<double, 12> integrated_angular_h_coefficients_array = integrate<12>(integrand, s_min, s_max, custom::Config().epsrel(1.0e-7));
 
         return BsToPhiDileptonAndConjugate::AngularhCoefficients(integrated_angular_h_coefficients_array);
     }

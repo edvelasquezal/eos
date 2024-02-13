@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2014, 2015, 2016, 2019, 2020 Danny van Dyk
+ * Copyright (c) 2014-2024 Danny van Dyk
  * Copyright (c) 2017 Thomas Blake
  *
  * This file is part of the EOS project. EOS is free software;
@@ -20,6 +20,7 @@
 
 #include <eos/form-factors/baryonic.hh>
 #include <eos/maths/complex.hh>
+#include <eos/maths/integrate.hh>
 #include <eos/maths/integrate-impl.hh>
 #include <eos/maths/power-of.hh>
 #include <eos/models/model.hh>
@@ -491,7 +492,7 @@ namespace eos
         {
             std::function<std::array<double, 34> (const double &)> integrand(std::bind(&Implementation::_differential_angular_observables, this, std::placeholders::_1));
 
-            return integrate1D(integrand, 64, s_min, s_max);
+            return integrate<34>(integrand, s_min, s_max, custom::Config().epsrel(1.0e-7));
         }
 
         inline lambdab_to_lambda_dilepton::AngularObservables differential_angular_observables(const double & s)
@@ -960,7 +961,7 @@ namespace eos
         {
             std::function<std::array<double, 34> (const double &)> integrand(std::bind(&Implementation::_differential_angular_observables, this, std::placeholders::_1));
 
-            return integrate1D(integrand, 64, s_min, s_max);
+            return integrate<34>(integrand, s_min, s_max, custom::Config().epsrel(1.0e-7));
         }
 
         inline lambdab_to_lambda_dilepton::AngularObservables differential_angular_observables(const double & s)

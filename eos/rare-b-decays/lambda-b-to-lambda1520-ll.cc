@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2022 Méril Reboud
+ * Copyright (c) 2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -43,6 +44,8 @@ namespace eos
         UsedParameter tau;
         UsedParameter mu;
 
+        custom::Config integration_config;
+
         static const std::vector<OptionSpecification> options;
 
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
@@ -51,7 +54,8 @@ namespace eos
             hbar(p["QM::hbar"], u),
             m_l(p["mass::" + opt_l.str()], u),
             tau(p["life_time::Lambda_b"], u),
-            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u)
+            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing Lb->L(1520)ll observables");
 
@@ -289,7 +293,7 @@ namespace eos
         {
             std::function<std::array<double, 12> (const double &)> integrand =
                     std::bind(&Implementation<LambdaBToLambda1520Dilepton>::differential_angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 12> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 12> integrated_angular_coefficients_array = integrate<12>(integrand, s_min, s_max, integration_config);
 
             return LambdaBToLambda1520Dilepton::AngularCoefficients(integrated_angular_coefficients_array);
         }

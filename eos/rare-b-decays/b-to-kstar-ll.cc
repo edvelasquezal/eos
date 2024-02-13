@@ -3,7 +3,7 @@
 /*
  * Copyright (c) 2011 Christian Wacker
  * Copyright (c) 2014 Christoph Bobeth
- * Copyright (c) 2016, 2017 Danny van Dyk
+ * Copyright (c) 2016-2024 Danny van Dyk
  * Copyright (c) 2021 Méril Reboud
  *
  * This file is part of the EOS project. EOS is free software;
@@ -49,6 +49,8 @@ namespace eos
         UsedParameter tau;
         UsedParameter mu;
 
+        custom::Config integration_config;
+
         using IntermediateResult = BToKstarDilepton::IntermediateResult;
 
         IntermediateResult intermediate_result;
@@ -61,7 +63,8 @@ namespace eos
             hbar(p["QM::hbar"], u),
             m_l(p["mass::" + opt_l.str()], u),
             tau(p["life_time::B_" + o.get("q", "d")], u),
-            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u)
+            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing B->K^*ll observables");
 
@@ -206,7 +209,7 @@ namespace eos
         {
             std::function<std::array<double, 12> (const double &)> integrand =
                     std::bind(&Implementation<BToKstarDilepton>::differential_angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 12> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 12> integrated_angular_coefficients_array = integrate<12>(integrand, s_min, s_max, integration_config);
 
             return BToKstarDilepton::AngularCoefficients(integrated_angular_coefficients_array);
         }

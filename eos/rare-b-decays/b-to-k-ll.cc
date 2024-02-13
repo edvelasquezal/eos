@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2011, 2012, 2013, 2015, 2016 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  * Copyright (c) 2021 Méril Reboud
  *
  * This file is part of the EOS project. EOS is free software;
@@ -70,6 +70,8 @@ namespace eos
         UsedParameter tau;
         UsedParameter mu;
 
+        custom::Config integration_config;
+
         static const std::vector<OptionSpecification> options;
 
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
@@ -81,7 +83,8 @@ namespace eos
             m_K(p["mass::K_" + opt_q.str()], u),
             m_l(p["mass::" + opt_l.str()], u),
             tau(p["life_time::B_" + opt_q.str()], u),
-            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u)
+            mu(p["sb" + opt_l.str() + opt_l.str() + "::mu"], u),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing B->Kll observables");
 
@@ -178,7 +181,7 @@ namespace eos
         {
             std::function<std::array<double, 3> (const double &)> integrand =
                     std::bind(&Implementation<BToKDilepton>::differential_angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 3> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 3> integrated_angular_coefficients_array = integrate<3>(integrand, s_min, s_max, integration_config);
 
             return BToKDilepton::AngularCoefficients(integrated_angular_coefficients_array);
         }
