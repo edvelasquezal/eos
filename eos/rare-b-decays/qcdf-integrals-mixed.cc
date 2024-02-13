@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2011, 2012, 2016 Danny van Dyk
+ * Copyright (c) 2011-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -18,6 +18,7 @@
  */
 
 #include <eos/maths/integrate.hh>
+#include <eos/maths/integrate-impl.hh>
 #include <eos/maths/power-of.hh>
 #include <eos/nonlocal-form-factors/hard-scattering.hh>
 #include <eos/rare-b-decays/qcdf-integrals.hh>
@@ -102,8 +103,8 @@ namespace eos
         // we only need to correct integral J_1
         std::function<complex<double> (const double &)> j_1_perp = std::bind(&HardScattering::j1, s, _1, m_c, m_B, a_1_perp, a_2_perp);
         std::function<complex<double> (const double &)> j_1_para = std::bind(&HardScattering::j1, s, _1, m_c, m_B, a_1_para, a_2_para);
-        results.j1_perp     = integrate1D(j_1_perp, 128, u_min, u_max);
-        results.j1_parallel = integrate1D(j_1_para, 128, u_min, u_max);
+        results.j1_perp     = integrate(j_1_perp, u_min, u_max, custom::Config().epsrel(1.0e-4));
+        results.j1_parallel = integrate(j_1_para, u_min, u_max, custom::Config().epsrel(1.0e-4));
 
         // composite results
         const double sh = s / m_B / m_B;

@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2011, 2013, 2015, 2017 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -89,7 +89,7 @@ class BToXsDileptonLargeRecoilTest :
                     static const std::vector<std::pair<double, double>> reference
                     {
                         /* phi_ll */
-                        std::make_pair(+1.01380e-05, 1e-9), // phi_ll(s = 1.0GeV^2)
+                        std::make_pair(+1.01394e-05, 1e-9), // phi_ll(s = 1.0GeV^2)
                         std::make_pair(+5.90542e-06, 1e-9), // phi_ll(s = 6.0GeV^2)
                     };
 
@@ -98,8 +98,8 @@ class BToXsDileptonLargeRecoilTest :
 
                 static const double eps = 1e-11;
 
-                TEST_CHECK_NEARLY_EQUAL(d_mu.integrated_branching_ratio(1.00, 6.00), 1.40781e-06, eps);
-                TEST_CHECK_NEARLY_EQUAL(d_e.integrated_branching_ratio(1.00, 6.00),  1.46487e-06, eps);
+                TEST_CHECK_NEARLY_EQUAL(d_mu.integrated_branching_ratio(1.00, 6.00), 1.40808e-06, eps);
+                TEST_CHECK_NEARLY_EQUAL(d_e.integrated_branching_ratio(1.00, 6.00),  1.46514e-06, eps);
             }
 
             // Benchmark Point (C_7,9,10 = 0, C_7',9',10' = C_7,9,10^SM)
@@ -153,15 +153,15 @@ class BToXsDileptonLargeRecoilTest :
                     static const std::vector<std::pair<double, double>> reference
                     {
                         /* phi_ll */
-                        std::make_pair(+0.93156e-05, 1e-9), // phi_ll(s = 1.0GeV^2)
+                        std::make_pair(+0.93190e-05, 1e-9), // phi_ll(s = 1.0GeV^2)
                         std::make_pair(+5.71634e-06, 1e-9), // phi_ll(s = 6.0GeV^2)
                     };
 
                     TEST_CHECK_DIAGNOSTICS(diagnostics, reference);
                 }
 
-                TEST_CHECK_NEARLY_EQUAL(d_mu.integrated_branching_ratio(1.00, 6.00), 1.35152e-06, eps);
-                TEST_CHECK_NEARLY_EQUAL(d_e.integrated_branching_ratio(1.00, 6.00),  1.39879e-06, eps);
+                TEST_CHECK_NEARLY_EQUAL(d_mu.integrated_branching_ratio(1.00, 6.00), 1.35168e-06, eps);
+                TEST_CHECK_NEARLY_EQUAL(d_e.integrated_branching_ratio(1.00, 6.00),  1.39895e-06, eps);
             }
         }
 } b_to_x_s_dilepton_large_recoil_test;

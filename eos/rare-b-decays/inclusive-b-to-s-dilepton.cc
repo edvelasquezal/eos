@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010, 2011, 2012, 2013, 2015 Danny van Dyk
+ * Copyright (c) 2010-2024 Danny van Dyk
  *
  * Credit goes to Christoph Bobeth for proofreading and
  * extensive checks.
@@ -568,9 +568,9 @@ namespace eos
     double
     BToXsDilepton<HLMW2005>::integrated_branching_ratio(const double & s_min, const double & s_max) const
     {
-        return integrate1D(std::function<double (const double &)>(
+        return integrate<GSL::QAGS>(std::function<double (const double &)>(
                     std::bind(&BToXsDilepton<HLMW2005>::differential_branching_ratio, this, std::placeholders::_1)),
-                32, s_min, s_max);
+                s_min, s_max);
     }
 
     Diagnostics

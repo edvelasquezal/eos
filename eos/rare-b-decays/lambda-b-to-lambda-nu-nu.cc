@@ -61,6 +61,8 @@ namespace eos
 
         bool cp_conjugate;
 
+        custom::Config integration_config;
+
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
             model(Model::make(o.get("model", "SM"), p, o)),
             m_Lambda_b(p["mass::Lambda_b"], u),
@@ -71,7 +73,8 @@ namespace eos
             hbar(p["QM::hbar"], u),
             mu(p["sbnunu::mu"], u),
             opt_cp_conjugate(o, options, "cp-conjugate"),
-            cp_conjugate(opt_cp_conjugate.value())
+            cp_conjugate(opt_cp_conjugate.value()),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing Lb->Lnunu observables");
 
@@ -120,7 +123,7 @@ namespace eos
         {
             std::function<std::array<double, 2> (const double &)> integrand =
                     std::bind(&Implementation<LambdaBToLambdaDineutrino>::angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 2> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 2> integrated_angular_coefficients_array = integrate<2>(integrand, s_min, s_max, integration_config);
 
             return LambdaBToLambdaDineutrino::AngularCoefficients(integrated_angular_coefficients_array);
         }
