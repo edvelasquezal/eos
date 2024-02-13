@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2018 Danny van Dyk
+ * Copyright (c) 2018-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -137,42 +137,42 @@ class BToDPiLeptonNeutrinoTest :
                 const double eps = 1e-5;
 
                 // distribution in cos(theta_D)
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-1.00), 0.785481, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.80), 0.631321, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.60), 0.511419, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.40), 0.425775, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.20), 0.374389, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d( 0.00), 0.357260, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.20), 0.374389, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.40), 0.425775, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.60), 0.511419, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.80), 0.631321, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+1.00), 0.785481, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-1.00), 0.796906, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.80), 0.636577, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.60), 0.511876, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.40), 0.422804, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(-0.20), 0.369361, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d( 0.00), 0.351547, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.20), 0.369361, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.40), 0.422804, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.60), 0.511876, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+0.80), 0.636577, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_d(+1.00), 0.796906, eps);
 
                 // distribution in cos(theta_l)
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-1.00), 0.133416, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.80), 0.254246, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.60), 0.358307, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.40), 0.445598, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.20), 0.516120, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l( 0.00), 0.569873, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.20), 0.606856, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.40), 0.627069, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.60), 0.630513, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.80), 0.617188, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+1.00), 0.587094, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-1.00), 0.133989, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.80), 0.255911, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.60), 0.360638, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.40), 0.448169, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(-0.20), 0.518506, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l( 0.00), 0.571647, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.20), 0.607593, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.40), 0.626343, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.60), 0.627899, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+0.80), 0.612259, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_l(+1.00), 0.579424, eps);
 
                 // distribution in chi
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 1.5708),  0.186796, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 2.35619), 0.168542, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 3.14159), 0.144789, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 3.45575), 0.149418, eps);
-                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 5.49779), 0.149768, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 1.5708),  0.186511, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 2.35619), 0.168446, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 3.14159), 0.144938, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 3.45575), 0.149519, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.differential_pdf_chi( 5.49779), 0.149864, eps);
 
                 // normalization of the integrated distributions
                 TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_d(-1.0,  0.0),     0.50000, eps);
                 TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_d(-1.0, +1.0),     1.0,     eps);
-                TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_l(-1.0,  0.0),     0.38658, eps);
+                TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_l(-1.0,  0.0),     0.38864, eps);
                 TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_l(-1.0, +1.0),     1.0,     eps);
                 TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_chi( 0.0,  +M_PI), 0.50000, eps);
                 TEST_CHECK_NEARLY_EQUAL(d.integrated_pdf_chi(-M_PI, +M_PI), 1.0,     eps);

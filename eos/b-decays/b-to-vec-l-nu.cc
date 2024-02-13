@@ -2,7 +2,7 @@
 
 /*
  * Copyright (c) 2018, 2019 Ahmet Kokulu
- * Copyright (c) 2019-2021 Danny van Dyk
+ * Copyright (c) 2019-2024 Danny van Dyk
  * Copyright (c) 2021 Christoph Bobeth
  *
  * This file is part of the EOS project. EOS is free software;
@@ -94,6 +94,8 @@ namespace eos
         // { U, q, I } -> { process, m_B, m_V, c_I }
         static const std::map<std::tuple<QuarkFlavor, QuarkFlavor, std::string>, std::tuple<std::string, std::string, std::string, double>> process_map;
 
+        custom::Config integration_config;
+
         inline std::string _process() const
         {
             const QuarkFlavor U = opt_U.value();
@@ -165,7 +167,8 @@ namespace eos
             mu(p[opt_U.str() + "b" + opt_l.str() + "nu" + opt_l.str() + "::mu"], u),
             opt_int_points(o, "integration-points", {"256", "4096"}, "256"),
             int_points(destringify<int>(opt_int_points.value())),
-            form_factors(FormFactorFactory<PToV>::create(_process() + "::" + o.get("form-factors", "BSZ2015"), p, o))
+            form_factors(FormFactorFactory<PToV>::create(_process() + "::" + o.get("form-factors", "BSZ2015"), p, o)),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing B->Vlnu observable");
 
@@ -287,8 +290,7 @@ namespace eos
         std::array<double, 12> _integrated_angular_observables(const double & q2_min, const double & q2_max) const
         {
             std::function<std::array<double, 12> (const double &)> integrand(std::bind(&Implementation::_differential_angular_observables, this, std::placeholders::_1));
-            // second argument of integrate1D is some power of 2
-            return integrate1D(integrand, int_points, q2_min, q2_max);
+            return integrate<12>(integrand, q2_min, q2_max, integration_config);
         }
 
         inline b_to_vec_l_nu::AngularObservables differential_angular_observables(const double & q2) const

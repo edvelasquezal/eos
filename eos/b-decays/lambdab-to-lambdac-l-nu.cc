@@ -2,7 +2,7 @@
 
 /*
  * Copyright (c) 2019 Ahmet Kokulu
- * Copyright (c) 2019,2021 Danny van Dyk
+ * Copyright (c) 2019-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -276,6 +276,8 @@ namespace eos
 
         std::shared_ptr<FormFactors<OneHalfPlusToOneHalfPlus>> form_factors;
 
+        custom::Config integration_config;
+
         static const std::vector<OptionSpecification> options;
 
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
@@ -290,7 +292,8 @@ namespace eos
             m_Lambda_c(p["mass::Lambda_c"], u),
             alpha(p["Lambda_c::alpha"], u),
             mu(p["cb" + opt_l.str() + "nu" + opt_l.str() + "::mu"], u),
-            form_factors(FormFactorFactory<OneHalfPlusToOneHalfPlus>::create("Lambda_b->Lambda_c::" + o.get("form-factors", "DKMR2017"), p, o))
+            form_factors(FormFactorFactory<OneHalfPlusToOneHalfPlus>::create("Lambda_b->Lambda_c::" + o.get("form-factors", "DKMR2017"), p, o)),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing L_b->L_c lnu observable");
 
@@ -380,7 +383,7 @@ namespace eos
         {
             std::function<std::array<double, 10> (const double &)> integrand(std::bind(&Implementation::_differential_angular_observables, this, std::placeholders::_1));
 
-            return integrate1D(integrand, 64, q2_min, q2_max);
+            return integrate<10>(integrand, q2_min, q2_max, integration_config);
         }
 
         inline lambdab_to_lambdac_l_nu::AngularObservables differential_angular_observables(const double & q2)

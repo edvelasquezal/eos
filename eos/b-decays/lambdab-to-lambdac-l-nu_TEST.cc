@@ -2,7 +2,7 @@
 
 /*
  * Copyright (c) 2019 Ahmet Kokulu
- * Copyright (c) 2019,2021 Danny van Dyk
+ * Copyright (c) 2019-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -65,13 +65,13 @@ class LambdaBToLambdaCLeptonNeutrinoTest :
 
                 LambdaBToLambdaCLeptonNeutrino d(p, oo);
 
-                const double eps = 1e-4;
+                const double eps = 1e-5;
 
                 // the full phase-space region for muon
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1), -0.20167, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  0.32745, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1), -0.11727, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),          0.58742, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1), -0.200397, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  0.327506, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1), -0.116720, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),          0.587245, eps);
             }
 
             // tests for SM observables, Re{cVL}=1.0 in the SM and all other couplings are zero, l = mu
@@ -93,13 +93,13 @@ class LambdaBToLambdaCLeptonNeutrinoTest :
 
                 LambdaBToLambdaCLeptonNeutrino d(p, oo);
 
-                const double eps = 1e-4;
+                const double eps = 1e-5;
 
                 // the full phase-space region for muon
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(3.154, 11.1), +0.02447,  eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(3.154, 11.1),  0.29600,  eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(3.154, 11.1), -0.022086, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(3.154, 11.1),          0.38041,  eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(3.154, 11.1), +0.02446526, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(3.154, 11.1),  0.29593853, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(3.154, 11.1), -0.02210506, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(3.154, 11.1),          0.38037097, eps);
             }
 
             // Consistency check for R_lambda
@@ -171,13 +171,13 @@ class LambdaBToLambdaCLeptonNeutrinoTest :
 
                 LambdaBToLambdaCLeptonNeutrino d(p, oo);
 
-                const double eps = 1e-4;
+                const double eps = 1e-5;
 
                 // the full phase-space region for muon
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1),   0.04665,  eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  -0.01808,  eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1),  -0.015045, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),           0.401858, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1),   0.04684472, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  -0.01819501, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1),  -0.01507982, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),           0.40190421, eps);
             }
 
             // tests for NP observables (no tensors)
@@ -210,13 +210,13 @@ class LambdaBToLambdaCLeptonNeutrinoTest :
 
                 LambdaBToLambdaCLeptonNeutrino d(p, oo);
 
-                const double eps = 1e-2;
+                const double eps = 1e-5;
 
                 // the full phase-space region for muon
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1),   0.1336, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  -0.0147, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1),  -0.1180, eps);
-                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),           0.3742, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_leptonic(0.011, 11.1),   0.13368210, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_hadronic(0.011, 11.1),  -0.01485354, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_a_fb_combined(0.011, 11.1),  -0.11790004, eps);
+                TEST_CHECK_RELATIVE_ERROR(d.integrated_fzero(0.011, 11.1),           0.37463692, eps);
             }
         }
 } lambdab_to_lambdac_l_nu_test;

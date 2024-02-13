@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2013-2016,2021 Danny van Dyk
+ * Copyright (c) 2013-2024 Danny van Dyk
  * Copyright (c) 2013 Bastian Müller
  * Copyright (c) 2018 Ahmet Kokulu
  * Copyright (c) 2018 Christoph Bobeth
@@ -70,6 +70,8 @@ namespace eos
 
         std::shared_ptr<FormFactors<PToV>> form_factors;
 
+        custom::Config integration_config;
+
         static const std::vector<OptionSpecification> options;
 
         Implementation(const Parameters & p, const Options & o, ParameterUser & u) :
@@ -83,7 +85,8 @@ namespace eos
             mu(p["ub" + opt_l.str() + "nu" + opt_l.str() + "::mu"], u),
             g_fermi(p["WET::G_Fermi"], u),
             tau(p["life_time::B_s"], u),
-            form_factors(FormFactorFactory<PToV>::create("B_s->K^*::" + o.get("form-factors", "FMvD2015"), p, o))
+            form_factors(FormFactorFactory<PToV>::create("B_s->K^*::" + o.get("form-factors", "FMvD2015"), p, o)),
+            integration_config(custom::Config().epsrel(1.0e-7))
         {
             Context ctx("When constructing B_s->K*lnu observable");
 
@@ -145,7 +148,7 @@ namespace eos
         {
             std::function<std::array<double, 12> (const double &)> integrand =
                     std::bind(&Implementation<BsToKstarLeptonNeutrino>::differential_angular_coefficients_array, this, std::placeholders::_1);
-            std::array<double, 12> integrated_angular_coefficients_array = integrate1D(integrand, 64, s_min, s_max);
+            std::array<double, 12> integrated_angular_coefficients_array = integrate<12>(integrand, s_min, s_max, integration_config);
 
             return AngularCoefficients(integrated_angular_coefficients_array);
         }
