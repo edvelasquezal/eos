@@ -147,6 +147,9 @@ namespace eos
         // in the SM of < 0.3%.
         static const double u_max_7 = 1.0 - 0.5 / m_B;
 
+        // critical value of u when integration variable approaches the threshold 4 m_c^2
+        static const double u_crit = (m_B * m_B - 4.0 * m_c * m_c) / (m_B * m_B - s);
+
         // perpendicular amplitude
         std::function<double (const double &)>          j_0_perp    = std::bind(&HardScattering::j0, s, _1, m_B, a_1_perp, a_2_perp);
         std::function<double (const double &)>          j_0bar_perp = std::bind(&HardScattering::j0, s, _1, m_B, -a_1_perp, a_2_perp);
@@ -157,14 +160,17 @@ namespace eos
         // This integral arises in perpendicular amplitudes, but depends on parallel Gegenbauer moments!
         std::function<complex<double> (const double &)> j_6_perp    = std::bind(&HardScattering::j6, s, _1, m_c, m_B, mu, a_1_para, a_2_para);
         std::function<double (const double &)>          j_7_perp    = std::bind(&HardScattering::j7, s, _1, m_B, a_1_perp, a_2_perp);
-        results.j0_perp    = integrate<GSL::QAGS>(j_0_perp,    u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-4));
-        results.j0bar_perp = integrate<GSL::QAGS>(j_0bar_perp, u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-4));
-        results.j1_perp    = integrate(j_1_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j2_perp    = integrate(j_2_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j4_perp    = integrate(j_4_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j5_perp    = integrate(j_5_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j6_perp    = integrate(j_6_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j7_perp    = integrate<GSL::QAGS>(j_7_perp, u_min, u_max_7, GSL::QAGS::Config().epsrel(1.0e-4));
+        results.j0_perp    = integrate<GSL::QAGS>(j_0_perp,    u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-7));
+        results.j0bar_perp = integrate<GSL::QAGS>(j_0bar_perp, u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-7));
+        std::cerr << "computing j1_perp" << std::endl;
+        results.j1_perp    = integrate(j_1_perp, u_min, u_crit,  custom::Config().epsrel(1.0e-7))
+                           + integrate(j_1_perp, u_crit,u_max,   custom::Config().epsrel(1.0e-7));
+        std::cerr << "finished computing j1_perp" << std::endl;
+        results.j2_perp    = integrate(j_2_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j4_perp    = integrate(j_4_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j5_perp    = integrate(j_5_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j6_perp    = integrate(j_6_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j7_perp    = integrate<GSL::QAGS>(j_7_perp, u_min, u_max_7, GSL::QAGS::Config().epsrel(1.0e-7));
 
         // parallel amplitude
         std::function<double (const double &)>          j_0_para = std::bind(&HardScattering::j0, s, _1, m_B, a_1_para, a_2_para);
@@ -215,14 +221,14 @@ namespace eos
         // This integral arises in perpendicular amplitudes, but depends on parallel Gegenbauer moments!
         std::function<complex<double> (const double &)> j_6_perp    = std::bind(&HardScattering::j6, s, _1, m_b, m_B, mu, a_1_para, a_2_para);
         std::function<double (const double &)>          j_7_perp    = std::bind(&HardScattering::j7, s, _1, m_B, a_1_perp, a_2_perp);
-        results.j0_perp    = integrate<GSL::QAGS>(j_0_perp,    u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-4));
-        results.j0bar_perp = integrate<GSL::QAGS>(j_0bar_perp, u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-4));
-        results.j1_perp    = integrate(j_1_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j2_perp    = integrate(j_2_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j4_perp    = integrate(j_4_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j5_perp    = integrate(j_5_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j6_perp    = integrate(j_6_perp, u_min, u_max,   custom::Config().epsrel(1.0e-4));
-        results.j7_perp    = integrate<GSL::QAGS>(j_7_perp, u_min, u_max_7, GSL::QAGS::Config().epsrel(1.0e-4));
+        results.j0_perp    = integrate<GSL::QAGS>(j_0_perp,    u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-7));
+        results.j0bar_perp = integrate<GSL::QAGS>(j_0bar_perp, u_min, u_max, GSL::QAGS::Config().epsrel(1.0e-7));
+        results.j1_perp    = integrate(j_1_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j2_perp    = integrate(j_2_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j4_perp    = integrate(j_4_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j5_perp    = integrate(j_5_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j6_perp    = integrate(j_6_perp, u_min, u_max,   custom::Config().epsrel(1.0e-7));
+        results.j7_perp    = integrate<GSL::QAGS>(j_7_perp, u_min, u_max_7, GSL::QAGS::Config().epsrel(1.0e-7));
 
         // parallel amplitude
         std::function<double (const double &)>          j_0_para = std::bind(&HardScattering::j0, s, _1, m_B, a_1_para, a_2_para);

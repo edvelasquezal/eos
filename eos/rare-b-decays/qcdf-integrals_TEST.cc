@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2011, 2016 Danny van Dyk
+ * Copyright (c) 2011-2024 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -519,10 +519,10 @@ class QCDFIntegralsDileptonCharmTest :
                 TEST_CHECK_NEARLY_EQUAL(  imag(results.j0_parallel),  0.0,                    eps);
 
                 // J1
-                TEST_CHECK_RELATIVE_ERROR(real(results.j1_perp),     -1.2084795500217594518,  eps);
+                TEST_CHECK_RELATIVE_ERROR(real(results.j1_perp),     -1.208479550021741,  eps);
                 if (("numerical" == Tag_::name) || ("mixed" == Tag_::name))
                 {
-                    TEST_CHECK_RELATIVE_ERROR(imag(results.j1_perp),     -1.6953885768872480000,  eps); // correct
+                    TEST_CHECK_RELATIVE_ERROR(imag(results.j1_perp),     -1.720577686485604,  eps); // correct
                 }
                 else
                 {
