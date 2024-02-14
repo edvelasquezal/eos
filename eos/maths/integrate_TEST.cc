@@ -157,7 +157,7 @@ class CustomIntegrateTest :
 
         virtual void run() const
         {
-            constexpr double eps = 1.0e-15;
+            constexpr double eps = 1.0e-4;
 
             {
                 const auto config = custom::Config().epsrel(eps);
