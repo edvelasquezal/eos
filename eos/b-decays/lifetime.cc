@@ -293,13 +293,13 @@ namespace eos
     double
     Lifetime::decay_width_dbcu() const
     {
-        return _imp->decay_width_dbcu();
+        return std::fabs(_imp->decay_width_dbcu());
     }
 
     double
     Lifetime::decay_width_sbcu() const
     {
-        return _imp->decay_width_sbcu();
+        return std::fabs(_imp->decay_width_sbcu());
     }
 
     const std::set<ReferenceName>
