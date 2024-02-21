@@ -3824,6 +3824,51 @@ groups:
           unit:     'GeV^-2'
   # }}}
 
+  # Dispersive bounds in c -> s currents
+  # {{{
+  - title: 'Dispersive bounds in the OPE for c -> s currents'
+    description: ''
+    parameters:
+      # [BFW:2010A] using a reference mass mb = 4.2 GeV
+      'c->s::chiOPE[0^+_V]' :
+          central:  1.38e-02
+          min:      1.38e-02
+          max:      1.38e-02
+          latex:    '$\chi_V^{J=0}|{}_\textrm{OPE}$'
+          unit:     '1'
+      'c->s::chiOPE[1^-_V]' :
+          central:  8.22e-03
+          min:      8.22e-03
+          max:      8.22e-03
+          latex:    '$\chi_V^{J=1}|{}_\textrm{OPE}$'
+          unit:     'GeV^-2'
+      'c->s::chiOPE[0^-_A]' :
+          central:  1.91e-02
+          min:      1.91e-02
+          max:      1.91e-02
+          latex:    '$\chi_A^{J=0}|{}_\textrm{OPE}$'
+          unit:     '1'
+      'c->s::chiOPE[1^+_A]' :
+          central:  7.46e-03
+          min:      7.46e-03
+          max:      7.46e-03
+          latex:    '$\chi_A^{J=1}|{}_\textrm{OPE}$'
+          unit:     'GeV^-2'
+      # Mind the factor of 1/4 due to the definition of the current
+      'c->s::chiOPE[1^-_T]' :
+          central:  2.36e-02
+          min:      2.36e-02
+          max:      2.36e-02
+          latex:    '$\chi_T^{J=1}|{}_\textrm{OPE}$'
+          unit:     'GeV^-2'
+      'c->s::chiOPE[1^+_T5]' :
+          central:  1.89e-02
+          min:      1.89e-02
+          max:      1.89e-02
+          latex:    '$\chi_{T_5}^{J=1}|{}_\textrm{OPE}$'
+          unit:     'GeV^-2'
+  # }}}
+
   # Parameters in D -> P Form Factor Parametrizations
   # {{{
   - title: 'Parameters in $D\to P$ Form Factor Parametrizations'
