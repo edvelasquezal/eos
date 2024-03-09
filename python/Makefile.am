@@ -17,6 +17,7 @@ EXTRA_DIST = \
 	eos/tasks.py \
 	eos/pyhf_likelihood.py \
 	eos/data/__init__.py \
+	eos/data/deserializable.py \
 	eos/data/native.py \
     eos/data/native_TEST.d \
 	eos/figure/__init__.py \
@@ -59,6 +60,7 @@ eos_SCRIPTS = \
 eosdatadir = $(pkgpythondir)/data
 eosdata_SCRIPTS = \
 	eos/data/__init__.py \
+	eos/data/deserializable.py \
 	eos/data/native.py
 
 eosplotdir = $(pkgpythondir)/plot
