@@ -2,9 +2,7 @@
 
 /*
  * Copyright (c) 2017-2024 Danny van Dyk
- * Copyright (c) 2018 Nico Gubernari
- * Copyright (c) 2018 Ahmet Kokulu
- * Copyright (c) 2022 Philip Lüghausen
+ * Copyright (c) 2024 Eduardo Velasquez
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -37,7 +35,7 @@ namespace eos
     {
         const std::vector<OptionSpecification> Exponential::options
         {
-            { "Q",      { "b" },                "b"        },
+            { "Q",      { "b", "c" },           "b"        },
             { "q",      { "u", "d", "s" },      "u"        },
             { "gminus", { "zero", "WW-limit" }, "WW-limit" }
         };
