@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2019-2024 Danny van Dyk
+ * Copyright (c) 2024 Eduardo Velasquez
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -658,6 +659,28 @@ namespace eos
 
                 make_form_factor_adapter("B->omega::T_23(q2)", R"(T_{23}^{B\to \omega}(q^2))",
                         &FormFactors<PToV>::t_23, std::make_tuple("q2")),
+            }
+        );
+
+        return ObservableGroup(imp);
+    }
+    // }}}
+
+
+    // D_s -> gamma
+    // {{{
+    ObservableGroup
+    make_ds_to_gamma_form_factors_group()
+    {
+        auto imp = new Implementation<ObservableGroup>(
+            R"(Form factors for $D_s\to \gamma$ transitions)",
+            R"(Pseudo observables representing the full basis of $D_s\to \gamma$ form factors.)",
+            {
+                make_form_factor_adapter("D_s->gamma::F_V(E_gamma)", R"(F_V^{D_s\to \gamma}(E_\gamma))",
+                        &FormFactors<PToGamma>::F_V, std::make_tuple("E_gamma")),
+
+                make_form_factor_adapter("D_s->gamma::F_A(E_gamma)", R"(F_A^{D_s\to \gamma}(E_\gamma))",
+                        &FormFactors<PToGamma>::F_A, std::make_tuple("E_gamma")),
             }
         );
 
