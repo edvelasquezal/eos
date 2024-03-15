@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2020-2023 Danny van Dyk
+ * Copyright (c) 2024 Eduardo Velasquez
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -293,6 +294,10 @@ namespace eos
     };
 
     /* P -> gamma Processes */
+    struct D_sToGamma
+    {
+    };
+
     struct BToGamma
     {
     };
