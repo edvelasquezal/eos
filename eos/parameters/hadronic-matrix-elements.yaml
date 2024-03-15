@@ -2228,6 +2228,49 @@ groups:
           unit:     '1'
   # }}}
 
+  # Parameters in D_s -> gamma Form Factor Parametrizations
+  # {{{
+  - title: 'Parameters in $D_s\to \gamma$ Form Factor Parametrizations'
+    description: ''
+    parameters:
+      # form factor parameters for D_s->gamma
+      'D_s->gamma::mu@FLvD2022QCDF' :
+          central: +1.5
+          min:     +1.0
+          max:     +2.0
+          latex:    '$\mu^{D_s \to \gamma, \mathrm{FLvD2022QCDF}}$'
+          unit:     'GeV'
+          comments: ""
+      'D_s->gamma::M^2@FLvD2022QCDF' :
+          central: +1.25
+          min:     +1.0
+          max:     +1.5
+          latex:    '$M^{D_s \to \gamma, \mathrm{FLvD2022QCDF}}$'
+          unit:     'GeV'
+          comments: ""
+      'D_s->gamma::s_0@FLvD2022QCDF' :
+          central: +1.5
+          min:     +1.4
+          max:     +1.6
+          latex:    '$s_0^{D_s \to \gamma, \mathrm{FLvD2022QCDF}}$'
+          unit:     'GeV^2'
+          comments: ""
+      'D_s->gamma::mu_h1@FLvD2022QCDF' :
+          central: +1.3
+          min:     +1.2
+          max:     +1.4
+          latex:    '$\mu_{h1}^{D_s \to \gamma, \mathrm{FLvD2022QCDF}}$'
+          unit:     'GeV'
+          comments: ""
+      'D_s->gamma::mu_h2@FLvD2022QCDF' :
+          central: +1.3
+          min:     +1.2
+          max:     +1.4
+          latex:    '$\mu_{h2}^{D_s \to \gamma, \mathrm{FLvD2022QCDF}}$'
+          unit:     'GeV'
+          comments: ""
+  # }}}
+
   # Parameters in B -> gamma Form Factor Parametrizations
   # {{{
   - title: 'Parameters in $B\to \gamma$ Form Factor Parametrizations'
