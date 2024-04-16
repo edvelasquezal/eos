@@ -113,10 +113,10 @@ namespace eos
 
         const double x = 2.0 * Egamma / m_bquark;
         const double log_x = std::log(x);
-        const double log_x_prime = std::log(2.0 * Egamma / mu);
+        const double log_x_prime = std::log(2.0 * Egamma / mu_h1);
         const double li2_1_m_x = dilog(1.0 - x).real(); // result is always real as x > 0
 
-        const double C = 1.0 + alpha_s_mu * C_F / (4.0 * pi) * (
+        const double C = 1.0 + alpha_s_mu_h1 * C_F / (4.0 * pi) * (
                     - 2.0 * log_x_prime * log_x_prime
                     + 5.0 * log_x_prime
                     - (3.0 - 2.0 * x) / (1.0 - x) * log_x
@@ -144,6 +144,9 @@ namespace eos
         const double gamma_1 = C_F * (
                 -1585.0 / 18.0 - 5.0 * pi2 / 6.0 + 34.0 * zeta_3 + n_l * (125.0 / 27.0 + pi2 / 3.0)
             );
+
+        const double gamma_0_hl = -3.0 * C_F;
+        const double gamma_1_hl = C_F * (-127.0 / 6.0 - 14.0 * pi2 / 9.0 + (5.0 / 3.0) * n_l);
 
         const double r1 = alpha_s_mu / alpha_s_mu_h1;
         const double log_r1 = std::log(r1);
@@ -180,13 +183,13 @@ namespace eos
 
 
         const double r2 = alpha_s_mu / alpha_s_mu_h2;
-        const double U2 = std::pow(r2, - gamma_0 / (2.0 * beta_0)) * (
+        const double U2 = std::pow(r2, - gamma_0_hl / (2.0 * beta_0)) * (
                 1.0 + alpha_s_mu_h2 / (4.0 * pi) * (
-                    gamma_1 / (2.0 * beta_0) - gamma_0 * beta_1 / (2.0 * beta_0 * beta_0)
+                    gamma_1_hl / (2.0 * beta_0) - gamma_0_hl * beta_1 / (2.0 * beta_0 * beta_0)
                 ) * (1.0 - r2)
             );
 
-        const double K = 1 + alpha_s_mu * C_F / (4.0 * pi) * (3.0 * std::log(m_bquark / mu) - 2.0);
+        const double K = 1 + alpha_s_mu_h2 * C_F / (4.0 * pi) * (3.0 * std::log(m_bquark / mu_h2) - 2.0);
 
         return { C, 1.0 / K, U1 / U2 };
     }
